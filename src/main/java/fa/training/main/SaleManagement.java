@@ -76,6 +76,7 @@ public class SaleManagement {
         CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
         Scanner scanner = new Scanner(System.in);
         boolean check = true;
+        int row = 0;
         while (check) {
             System.out.print("Enter name: ");
             customer.setCustomerName(scanner.next());
@@ -83,14 +84,15 @@ public class SaleManagement {
             System.out.print("Do you want to continue(Y/N): ");
             String next = scanner.next();
             if (next.equals("N") || next.equals("n")) {
+                row = customerDAOImpl.create(customer.getCustomerName());
                 check = false;
-                System.out.println("Insert success!");
             } else if (next.equals("Y") || next.equals("y")) {
+                row = customerDAOImpl.create(customer.getCustomerName());
                 continue;
             }
         }
-        int row = customerDAOImpl.create(customer.getCustomerName());
         if(row > 0){
+            System.out.println("Insert success!");
             return true;
         }else {
             return false;
@@ -195,6 +197,7 @@ public class SaleManagement {
     }
     public static void main(String[] args) throws SQLException {
         SaleManagement saleManagement = new SaleManagement();
-        saleManagement.addOrder(new Order());
+//        saleManagement.addOrder(new Order());
+        saleManagement.addCustomer(new Customer());
     }
 }

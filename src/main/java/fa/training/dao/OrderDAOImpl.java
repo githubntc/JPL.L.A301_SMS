@@ -19,20 +19,22 @@ public class OrderDAOImpl implements OrderDAO{
 
         try{
             conn.setAutoCommit(false);
-            String sql = "INSERT INTO `orders`(`order_date`, `customer_id`, `employee_id`, `total`) VALUES ('?',?,?,?)";
+            String sql = "INSERT INTO `orders`(order_id,`order_date`, `customer_id`, `employee_id`, `total`) VALUES (null,?,?,?,?)";
             PreparedStatement preparedStatement = database.getConn().prepareStatement(sql);
-            preparedStatement.setDate(1, (java.sql.Date)order.getOrderDate());
+            java.sql.Date date = new Date(order.getOrderDate().getTime());
+            preparedStatement.setDate(1, date);
             preparedStatement.setInt(2, order.getCustomerId());
             preparedStatement.setInt(3, order.getEmployeeId());
             preparedStatement.setDouble(4, order.getTotal());
             count = preparedStatement.executeUpdate();
             conn.commit();
             conn.setAutoCommit(true);
-
             return count;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Don't exist customer or employee!!!");
+            return 0;
         }catch (SQLException e){
             conn.rollback();
-
             return 0;
         }
     }

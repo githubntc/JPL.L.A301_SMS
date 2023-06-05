@@ -9,7 +9,10 @@ import fa.training.entities.LineItem;
 import fa.training.entities.Order;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -71,7 +74,21 @@ public class SaleManagement {
 
     public boolean addCustomer(Customer customer) throws SQLException {
         CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
+        Scanner scanner = new Scanner(System.in);
+        boolean check = true;
+        while (check) {
+            System.out.print("Enter name: ");
+            customer.setCustomerName(scanner.next());
 
+            System.out.print("Do you want to continue(Y/N): ");
+            String next = scanner.next();
+            if (next.equals("N") || next.equals("n")) {
+                check = false;
+                System.out.println("Insert success!");
+            } else if (next.equals("Y") || next.equals("y")) {
+                continue;
+            }
+        }
         int row = customerDAOImpl.create(customer.getCustomerName());
         if(row > 0){
             return true;
@@ -110,12 +127,31 @@ public class SaleManagement {
     }
     public boolean addOrder(Order order) throws SQLException {
         OrderDAOImpl orderDAOImpl = new OrderDAOImpl();
+        Scanner scanner = new Scanner(System.in);
+        int row = 0;
+        try {
+            System.out.print("Enter date: ");
+            Date date = null;
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(scanner.nextLine());
+            order.setOrderDate(date);
 
-        int row = orderDAOImpl.create(order);
-        if(row > 0){
-            return true;
+            System.out.print("Enter customer_id: ");
+            order.setCustomerId(Integer.parseInt(scanner.nextLine()));
+
+            System.out.print("Enter employee_id: ");
+            order.setEmployeeId(Integer.parseInt(scanner.nextLine()));
+
+            System.out.print("Enter total: ");
+            order.setTotal(Double.parseDouble(scanner.nextLine()));
+
+            row = orderDAOImpl.create(order);
+
+        } catch (ParseException e) {
+            System.err.println("Error format!!!");
         }
-        else{
+        if (row > 0) {
+            return true;
+        } else {
             return false;
         }
     }
@@ -158,6 +194,7 @@ public class SaleManagement {
         System.out.print("Function: ");
     }
     public static void main(String[] args) throws SQLException {
-
+        SaleManagement saleManagement = new SaleManagement();
+        saleManagement.addOrder(new Order());
     }
 }

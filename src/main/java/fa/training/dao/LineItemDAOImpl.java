@@ -12,7 +12,7 @@ public class LineItemDAOImpl implements LineItemDAO{
     public LineItemDAOImpl(){
         database = new Database();
     }
-
+    @Override
     public int create(int order_id, int product_id, int quantity, double price) throws SQLException {
         Connection conn = database.getConn();
         int count;
@@ -35,11 +35,12 @@ public class LineItemDAOImpl implements LineItemDAO{
             return 0;
         }
     }
+    @Override
     public List<LineItem> retrieve(){
         List<LineItem> list = new ArrayList<>();
         LineItem lineItem;
         try{
-            String sql = "SELECT * FROM `LineItem";
+            String sql = "SELECT * FROM `LineItem`";
             Connection conn = database.getConn();
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -53,6 +54,7 @@ public class LineItemDAOImpl implements LineItemDAO{
         }
         return list;
     }
+    @Override
     public int update(int order_id, int product_id, int quantity, double price) throws SQLException{
         Connection conn = database.getConn();
         int count = 0;
@@ -83,6 +85,7 @@ public class LineItemDAOImpl implements LineItemDAO{
             return count;
         }
     }
+    @Override
     public int delete(int order_id, int product_id) throws SQLException{
         Connection conn = database.getConn();
         int count;
@@ -92,7 +95,7 @@ public class LineItemDAOImpl implements LineItemDAO{
             String sql = "DELETE FROM `LineItem` WHERE `order_id` = ? AND `product_id` = ?";
             PreparedStatement preparedStatement = database.getConn().prepareStatement(sql);
             preparedStatement.setInt(1,order_id);
-            preparedStatement.setInt(1,product_id);
+            preparedStatement.setInt(2,product_id);
             count = preparedStatement.executeUpdate();
             conn.commit();
             conn.setAutoCommit(true);

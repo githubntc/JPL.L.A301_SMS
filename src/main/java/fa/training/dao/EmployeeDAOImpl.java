@@ -12,7 +12,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     public EmployeeDAOImpl(){
         this.database = new Database();
     }
-
+    @Override
     public int create(Employee employee) throws SQLException {
         Connection conn = database.getConn();
         int count;
@@ -34,6 +34,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         }
 
     }
+    @Override
     public List<Employee> retrieve(){
         List<Employee> list = new ArrayList<>();
         Employee employee;
@@ -54,7 +55,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         }
         return list;
     }
-
+    @Override
     public int update(int employee_id, String employee_name, double salary, int spvrId) throws SQLException{
         Connection conn = database.getConn();
         int count = 0;
@@ -90,6 +91,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
             return 0;
         }
     }
+    @Override
     public int delete(int employee_id) throws SQLException{
         Connection conn = database.getConn();
         int count;

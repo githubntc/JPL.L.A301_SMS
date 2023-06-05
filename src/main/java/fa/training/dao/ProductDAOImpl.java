@@ -12,7 +12,7 @@ public class ProductDAOImpl implements ProductDAO{
     public ProductDAOImpl(){
         database = new Database();
     }
-
+    @Override
     public int create(String product_name, double list_price) throws SQLException {
         Connection conn = database.getConn();
         int count;
@@ -31,7 +31,7 @@ public class ProductDAOImpl implements ProductDAO{
             return 0;
         }
     }
-
+    @Override
     public List<Product> retrieve(){
         List<Product> list = new ArrayList<>();
         Product product;
@@ -51,7 +51,7 @@ public class ProductDAOImpl implements ProductDAO{
         }
         return list;
     }
-
+    @Override
     public int update(int product_id, String product_name, double list_price) throws SQLException{
         Connection conn = database.getConn();
         int count = 0;
@@ -79,7 +79,7 @@ public class ProductDAOImpl implements ProductDAO{
             return 0;
         }
     }
-
+    @Override
     public int delete(int product_id) throws SQLException{
         Connection conn = database.getConn();
         int count;

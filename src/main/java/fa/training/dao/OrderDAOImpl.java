@@ -12,14 +12,14 @@ public class OrderDAOImpl implements OrderDAO{
     public OrderDAOImpl(){
         database = new Database();
     }
-
+    @Override
     public int create(Order order) throws SQLException {
         Connection conn = database.getConn();
         int count;
 
         try{
             conn.setAutoCommit(false);
-            String sql = "INSERT INTO `orders`(order_id,`order_date`, `customer_id`, `employee_id`, `total`) VALUES (null,?,?,?,?)";
+            String sql = "INSERT INTO `orders`(`order_date`, `customer_id`, `employee_id`, `total`) VALUES (?,?,?,?)";
             PreparedStatement preparedStatement = database.getConn().prepareStatement(sql);
             java.sql.Date date = new Date(order.getOrderDate().getTime());
             preparedStatement.setDate(1, date);
@@ -38,7 +38,7 @@ public class OrderDAOImpl implements OrderDAO{
             return 0;
         }
     }
-
+    @Override
     public List<Order> retrieve(){
         List<Order> list = new ArrayList<>();
         Order order;
@@ -61,7 +61,7 @@ public class OrderDAOImpl implements OrderDAO{
         }
         return list;
     }
-
+    @Override
     public int updateDate(int order_id, int customer_id, int employee_id, double total) throws SQLException{
         Connection conn = database.getConn();
         int count = 0;
@@ -102,6 +102,7 @@ public class OrderDAOImpl implements OrderDAO{
             return count;
         }
     }
+    @Override
     public int delete(int order_id) throws SQLException{
         Connection conn = database.getConn();
         int count;

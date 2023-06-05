@@ -1,6 +1,6 @@
 package fa.training.entities;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Order {
     private int orderId;
